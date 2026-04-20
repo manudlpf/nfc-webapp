@@ -22,23 +22,47 @@
   <pre id="output"></pre>
 
   <script>
-    async function writeToTag() {
-      try {
-        const temporisation = document.getElementById("temporisation").value;
-        const sensibilite = document.getElementById("sensibilite").value;
-        const ndef = new NDEFReader();
-        await ndef.write({
-          records: [{
-            recordType: "mime",
-            mediaType: "application/json",
-            data: JSON.stringify({ temporisation, sensibilite })
-          }]
-        });
-        document.getElementById("output").textContent = "Paramètres écrits avec succès.";
-      } catch (error) {
-        document.getElementById("output").textContent = "Erreur : " + error;
-      }
+   
+async function writeParamsToTag() {
+  const output = document.getElementById("output");
+
+  try {
+    const temporisation = Number(
+      document.getElementById("temporisation").value
+    );
+    const sensibilite = Number(
+      document.getElementById("sensibilite").value
+    );
+
+    if (isNaN(temporisation) || isNaN(sensibilite)) {
+      output.textContent = "Valeurs invalides.";
+      return;
     }
+
+    const payload = JSON.stringify({
+      temporisation,
+      sensibilite
+    });
+
+    const encoder = new TextEncoder();
+    const data = encoder.encode(payload); // ✅ Uint8Array
+
+    const ndef = new NDEFReader();
+    await ndef.write({
+      records: [{
+        recordType: "mime",
+        mediaType: "application/json",
+        data: data
+      }]
+    });
+
+    output.textContent = "Paramètres écrits dans le tag NFC.";
+
+  } catch (error) {
+    output.textContent = "Erreur NFC : " + error;
+  }
+}
+
 
     async function readFromTag() {
       try {
