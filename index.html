@@ -16,7 +16,7 @@
     <input type="number" id="sensibilite" name="sensibilite" required><br><br>
 
    <button type="button" onclick="writeParamsToTag()">Écrire sur le tag NFC</button>
-    <button type="button" onclick="readFromTag()">Lire les paramètres</button>
+   
   </form>
 
   <pre id="output"></pre>
@@ -64,23 +64,7 @@ async function writeParamsToTag() {
 }
 
 
-    async function readFromTag() {
-      try {
-        const ndef = new NDEFReader();
-        await ndef.scan();
-        ndef.onreading = event => {
-          const decoder = new TextDecoder();
-          for (const record of event.message.records) {
-            if (record.mediaType === "application/json") {
-              const json = JSON.parse(decoder.decode(record.data));
-              document.getElementById("output").textContent = JSON.stringify(json, null, 2);
-            }
-          }
-        };
-      } catch (error) {
-        document.getElementById("output").textContent = "Erreur : " + error;
-      }
-    }
+   
   </script>
 </body>
 </html>
