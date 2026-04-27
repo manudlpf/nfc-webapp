@@ -22,46 +22,52 @@
   <pre id="output"></pre>
 
   <script>
-   
+
+    
+const WEBAPP_URL = "https://blue-bush-010b8df10.3.azurestaticapps.net"; // ton URL finale
+
 async function writeParamsToTag() {
   const output = document.getElementById("output");
 
   try {
-    const temporisation = Number(
-      document.getElementById("temporisation").value
-    );
-    const sensibilite = Number(
-      document.getElementById("sensibilite").value
-    );
+    output.textContent = "⏳ Approchez le tag NFC...";
+
+    const temporisation = Number(document.getElementById("temporisation").value);
+    const sensibilite  = Number(document.getElementById("sensibilite").value);
 
     if (isNaN(temporisation) || isNaN(sensibilite)) {
-      output.textContent = "Valeurs invalides.";
+      output.textContent = "❌ Valeurs invalides.";
       return;
     }
 
-    const payload = JSON.stringify({
-      temporisation,
-      sensibilite
-    });
-
-    const encoder = new TextEncoder();
-    const data = encoder.encode(payload); // ✅ Uint8Array
+    const payloadJson = JSON.stringify({ temporisation, sensibilite });
+    const jsonBytes = new TextEncoder().encode(payloadJson);
 
     const ndef = new NDEFReader();
+
+    // ⚠️ IMPORTANT : on écrit TOUJOURS l'URL + le JSON, sinon on écrase l'URL
     await ndef.write({
-      records: [{
-        recordType: "mime",
-        mediaType: "application/json",
-        data: data
-      }]
+      records: [
+        {
+          recordType: "url",
+          data: WEBAPP_URL
+        },
+        {
+          recordType: "mime",
+          mediaType: "application/json",
+          data: jsonBytes
+        }
+      ]
     });
 
-    output.textContent = "Paramètres écrits dans le tag NFC.";
+    output.textContent = "✅ Paramètres écrits (URL conservée).";
 
   } catch (error) {
-    output.textContent = "Erreur NFC : " + error;
+    output.textContent = "❌ Erreur NFC : " + error;
   }
 }
+
+
 
 
    
