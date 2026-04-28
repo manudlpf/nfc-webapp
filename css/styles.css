@@ -1,7 +1,0 @@
-body { font-family: system-ui, Arial, sans-serif; padding: 16px; }
-.card { max-width: 520px; padding: 12px; border: 1px solid #ddd; border-radius: 10px; }
-.row { margin: 10px 0; display: grid; gap: 6px; }
-.actions { display: flex; gap: 10px; margin: 12px 0; }
-button { padding: 10px 12px; }
-pre { background: #f6f8fa; padding: 10px; border-radius: 8px; white-space: pre-wrap; }
-``
