@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Paramétrage NFC Device</title>
+</head>
+<body>
+  <h2>Configurer le device NFC</h2>
+
+  <form id="nfcForm">
+    <label for="temporisation">Temporisation (ms):</label>
+    <input type="number" id="temporisation" name="temporisation" required><br><br>
+
+    <label for="sensibilite">Sensibilité (%):</label>
+    <input type="number" id="sensibilite" name="sensibilite" required><br><br>
+
+   <button type="button" onclick="writeParamsToTag()">Écrire sur le tag NFC</button>
+   
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+
+    
+const WEBAPP_URL = "https://blue-bush-010b8df10.3.azurestaticapps.net"; // ton URL finale
+
+async function writeParamsToTag() {
+  const output = document.getElementById("output");
+
+  try {
+    output.textContent = "⏳ Approchez le tag NFC...";
+
+    const temporisation = Number(document.getElementById("temporisation").value);
+    const sensibilite  = Number(document.getElementById("sensibilite").value);
+
+    if (isNaN(temporisation) || isNaN(sensibilite)) {
+      output.textContent = "❌ Valeurs invalides.";
+      return;
+    }
+
+    const payloadJson = JSON.stringify({ temporisation, sensibilite });
+    const jsonBytes = new TextEncoder().encode(payloadJson);
+
+    const ndef = new NDEFReader();
+
+    // ⚠️ IMPORTANT : on écrit TOUJOURS l'URL + le JSON, sinon on écrase l'URL
+    await ndef.write({
+      records: [
+        {
+          recordType: "url",
+          data: WEBAPP_URL
+        },
+        {
+          recordType: "mime",
+          mediaType: "application/json",
+          data: jsonBytes
+        }
+      ]
+    });
+
+    output.textContent = "✅ Paramètres écrits (URL conservée).";
+
+  } catch (error) {
+    output.textContent = "❌ Erreur NFC : " + error;
+  }
+}
+
+
+
+
+   
+  </script>
+</body>
+</html>
