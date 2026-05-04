@@ -9,7 +9,7 @@ function requireWebNfc() {
 export async function writeUrlAndJson({ deviceType, params }) {
   requireWebNfc();
 
-  const payloadObj = { v: 1, deviceType, params };
+  const payloadObj = { v: 1, deviceType, seq: Date.now() & 0xFFFF,params };
   const jsonBytes = new TextEncoder().encode(JSON.stringify(payloadObj));
 
   const ndef = new NDEFReader();
