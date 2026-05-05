@@ -105,6 +105,7 @@ function init() {
   $("deviceType").addEventListener("change", (e) => renderParams(e.target.value));
   $("btnWrite").addEventListener("click", onWrite);
   $("btnRead").addEventListener("click", onRead);
+  setupPlatformMode();
 }
 
 window.addEventListener("load", init);
