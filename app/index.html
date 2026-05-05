@@ -23,7 +23,29 @@
 
     <pre id="output"></pre>
   </div>
+<div id="platformBanner" class="banner"></div>
 
+<div id="iosPanel" class="card" style="display:none; margin-top:12px;">
+  <h3>iPhone (mode guidé)</h3>
+  <p>
+    iOS ne permet pas l’écriture NFC depuis le navigateur. Utilisez une application NFC (ex. NFC Tools) pour écrire.
+  </p>
+
+  <button id="btnIosGuide" type="button">📌 Guide iPhone : écrire URL + JSON</button>
+
+  <h4>JSON à copier/coller</h4>
+  <textarea id="iosJson" rows="6" style="width:100%; font-family:monospace;"></textarea>
+
+  <div style="margin-top:8px; display:flex; gap:8px;">
+    <button id="btnCopyJson" type="button">📋 Copier le JSON</button>
+    <button id="btnCopyUrl" type="button">📋 Copier l’URL</button>
+  </div>
+
+  <pre id="iosHelp" style="margin-top:10px;"></pre>
+</div>
+
+  
+  
   <!-- IMPORTANT : module pour permettre les imports (devices.js, nfc.js) -->
   <script type="module" src="./js/app.js"></script>
 </body>
