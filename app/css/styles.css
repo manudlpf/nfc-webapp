@@ -4,3 +4,12 @@ body { font-family: system-ui, Arial, sans-serif; padding: 16px; }
 .actions { display: flex; gap: 10px; margin: 12px 0; }
 button { padding: 10px 12px; }
 pre { background: #f6f8fa; padding: 10px; border-radius: 8px; white-space: pre-wrap; }
+
+banner {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f6f8fa;
+}
+.banner.warn { background: #fff4e5; }
+.banner.ok   { background: #e8fff1; }
