@@ -17,7 +17,7 @@ export async function writeUrlAndJson({ deviceType, params }) {
   // write() accepte un tableau de records (URL + MIME JSON). [5](https://developer.mozilla.org/en-US/docs/Web/API/NDEFReader/write)[6](https://developer.mozilla.org/en-US/docs/Web/API/NDEFReader)
   await ndef.write({
     records: [
-      { recordType: "URL", data: WEBAPP_URL },
+      { recordType: "url", data: WEBAPP_URL },
       { recordType: "mime", mediaType: "application/json", data: jsonBytes }
     ]
   });
